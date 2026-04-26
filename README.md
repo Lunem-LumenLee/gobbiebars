@@ -25,56 +25,97 @@ The **Buttons** plugin is built into GobbieBars and provides the main action but
 - Optional plugins that can be turned on or off
 - Plugin system for adding more features later
 
-## Buttons
+## Plugins
 
-The Buttons plugin is built into GobbieBars.
+GobbieBars includes the built-in Buttons plugin and several optional plugins that can be enabled or disabled from the settings window.
 
-It lets you create clickable buttons for commands, macros, items, spells, weaponskills, job abilities, trusts, mounts, and other shortcuts.
-
-Buttons can be attached to GobbieBars screen bars or placed freely on the screen, depending on how you want your layout to work.
-
-### Button Features
-
-- Add, edit, duplicate, and delete buttons
-- Attach buttons to bars or place them freely on the screen
-- Set custom icons and labels
-- Add tooltips
-- Add keybinds
-- Create multi-line macros
-- Use global buttons or job-specific buttons
-- Show or hide buttons based on main job or sub job
-- Adjust text size, color, alignment, and shadow
-- Customize icon, border, background, and state colors
-- Use included icons or your own `.png` files
-- Move buttons with drag-and-drop layout mode
-
-## Included Plugins
-
-GobbieBars includes several plugins. The Buttons plugin is built in, while the other plugins can be enabled or disabled.
-
-| Plugin | Description |
+| Plugin | Short Description |
 |---|---|
-| Buttons | Built-in action button system for commands, macros, items, spells, abilities, trusts, mounts, and custom shortcuts. Buttons can be placed on bars or freely on the screen. |
-| Clock | Shows clock and time information. |
-| Codex | Provides quick access to useful information and lookup features. |
-| Day | Shows day-related information. |
-| Emote | Provides quick access to emotes. |
-| Moon | Shows moon phase information. |
-| Player Job | Shows player job information. |
-| Position | Shows player position/location information. |
-| Weather | Shows weather information. |
+| [Buttons](#buttons) | Create action buttons, macros, shortcuts, and custom commands. |
+| [Clock](#clock) | Show Vana'diel time, real time, alarms, and clock icons. |
+| [Codex](#codex) | Track missing spells or lookup entries with wiki support. |
+| [Day](#day) | Show Vana'diel day and elemental weakness information. |
+| [Emote](#emote) | Show a configurable emote menu. |
+| [Moon](#moon) | Show moon phase information. |
+| [Player Job](#player-job) | Show player jobs, levels, XP/LP, and job icons. |
+| [Position](#position) | Show player position coordinates. |
+| [Weather](#weather) | Show weather information with icon/text options. |
 
-More plugins can be added later through the GobbieBars plugin system.
+## Plugin Details
 
-## Screenshots
+### Buttons
 
-### General Settings
+The Buttons plugin is built into GobbieBars and provides the main action button system.
 
-![General Settings](docs/screenshots/general-settings.png)
+Buttons can be attached to GobbieBars screen bars or placed freely on the screen. You can create shortcuts for commands, macros, items, spells, weaponskills, job abilities, trusts, mounts, and other custom actions.
 
-### Buttons Plugin
+Main options include custom icons, labels, tooltips, keybinds, multiline macros, job-specific visibility, text styling, colors, and drag-and-drop layout positioning.
 
 ![Buttons Plugin](docs/screenshots/buttons-plugin.png)
+
+### Clock
+
+The Clock plugin displays Vana'diel time, real time, or both.
+
+It supports seconds display, Vana'diel and real-time icons, font settings, alarm text, alarm mode, repeat timing, alarm sound testing, and an optional alarm overlay when the alarm fires.
+
+![Clock Plugin](docs/screenshots/clock.png)
+
+### Codex
+
+The Codex plugin provides a lookup/tracking window for missing spells or other useful entries.
+
+It includes refresh support, a missing count display, selectable wiki source, label display options, list display options, and separate font settings for the label and list.
+
+![Codex Plugin](docs/screenshots/codex-settings.png)
+
+### Day
+
+The Day plugin displays Vana'diel day information.
+
+It can show the current day, weakness element, weakness text, and a next-day tooltip. Font and icon size can be configured.
+
+![Day Plugin](docs/screenshots/day-settings.png)
+
+### Emote
+
+The Emote plugin provides a configurable on-screen emote menu.
+
+It supports position and size settings, icon size, font size, bar text size, and individual emote options such as use, silent, and favorite.
+
+![Emote Plugin](docs/screenshots/emote-settings.png)
+
+### Moon
+
+The Moon plugin displays moon phase information.
+
+It can show the moon phase percentage and supports configurable font, font size, and icon size.
+
+![Moon Plugin](docs/screenshots/moon-settings.png)
+
+### Player Job
+
+The Player Job plugin displays player job information.
+
+It can show job name, main/sub job levels, XP/LP, percentages, prestige options, job icons, icon themes, sorting, font settings, and layout size controls.
+
+![Player Job Plugin](docs/screenshots/playerjob-settings.png)
+
+### Position
+
+The Position plugin displays player position coordinates.
+
+It supports configurable precision, font, font size, font color, and placement on the screen or a bar.
+
+![Position Plugin](docs/screenshots/position-settings.png)
+
+### Weather
+
+The Weather plugin displays weather information.
+
+It supports optional text display, configurable font, font size, font color, icon size, and placement on the screen or a bar.
+
+![Weather Plugin](docs/screenshots/weather-settings.png)
 
 ## Documentation
 
