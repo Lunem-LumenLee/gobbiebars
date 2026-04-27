@@ -167,6 +167,7 @@ Basic install:
 
 ```text
 /addon load gobbiebars
+```
 
 ## Project Status
 
@@ -179,4 +180,3 @@ I am sharing it because I think it is already useful, but please keep in mind th
 ## License
 
 GobbieBars is released under the MIT License.
-
