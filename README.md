@@ -8,6 +8,8 @@ It was made specifically for **CatseyeXI**, but it is designed to work on other 
 
 GobbieBars gives you configurable screen bars for information plugins and layout areas, while the built-in **Buttons** plugin can create shortcuts either on bars or directly on the screen. Each bar can be configured individually, including size, color, opacity, texture, and whether it stays visible or only appears when you move the mouse over it.
 
+I wanted GobbieBars to be modular so I made seperate plugins which can be added under the file structure of this addon, but they should not be confused with typical "Plugins" such as Minimap or Deeps which are installed in the "Ashita\Plugins" folder.
+
 The **Buttons** plugin is built into GobbieBars and provides the main action button system. Other plugins can be enabled or disabled depending on what you want to show.
 
 ![Buttons Demo](docs/screenshots/video.gif)
