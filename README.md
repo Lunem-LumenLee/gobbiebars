@@ -10,7 +10,7 @@ GobbieBars gives you configurable screen bars for information plugins and layout
 
 I wanted GobbieBars to be modular so I made seperate plugins which can be added under the file structure of this addon, but they should not be confused with typical "Plugins" such as Minimap or Deeps which are installed in the "Ashita\Plugins" folder.
 
-The **Buttons** plugin is built into GobbieBars and provides the main action button system. Other plugins can be enabled or disabled depending on what you want to show.
+The **Buttons** plugin is built into GobbieBars and provides the main action button system. Other "gobbie" plugins can be enabled or disabled depending on what you want to show.
 
 ![Buttons Demo](docs/screenshots/video.gif)
 
