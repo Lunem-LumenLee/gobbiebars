@@ -45,7 +45,7 @@ GobbieBars includes the built-in Buttons plugin and several optional plugins tha
 ## Plugin Details
 
 <h2>
-  <img src="docs/icons/buttons.png" width="32" height="32" align="center" alt="Buttons icon">
+  <img src="docs/icons/buttons.png" width="30" height="30" align="center" alt="Buttons icon">
   Buttons
 </h2>
 
