@@ -117,17 +117,18 @@ It supports optional text display, configurable font, font size, font color, ico
 
 ![Weather Plugin](docs/screenshots/weather-settings.png)
 
-## Documentation
+## Help
 
-Detailed documentation will be added as the addon is prepared for public release.
+GobbieBars includes an in-game help window with detailed information about settings, buttons, plugins, and usage.
 
-Planned pages:
+Basic install:
 
-- Installation guide
-- Configuration guide
-- Buttons guide
-- Plugin list
-- Plugin development guide
+1. Download GobbieBars.
+2. Place the `gobbiebars` folder in your Ashita `addons` folder.
+3. Load it with:
+
+```text
+/addon load gobbiebars
 
 ## License
 
