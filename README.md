@@ -177,6 +177,8 @@ Everything included should be usable, but it is not finished yet. Some features 
 
 I am sharing it because I think it is already useful, but please keep in mind that it is still growing and changing.
 
+Suggestions, feedback, and ideas are welcome.
+
 ## License
 
 GobbieBars is released under the MIT License.
