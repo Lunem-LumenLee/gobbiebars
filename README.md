@@ -12,18 +12,17 @@ The **Buttons** plugin is built into GobbieBars and provides the main action but
 
 ## Main Features
 
-- Made specifically for CatseyeXI
+- Made specifically for CatseyeXI, with support for CW, ACE, and WEW game modes
 - Designed to work on other Ashita v4 servers as well
-- Configurable top, bottom, left, and right screen bars
+- Configurable top, bottom, left, and right bars
 - Each bar can be adjusted separately
-- Bars can be static or shown only on mouseover
+- Each bar can be set individually to stay visible or appear only on mouseover
 - In-game settings window
-- Custom bar textures
-- Custom fonts
+- Each bar can be customized individually, including texture, size, color, opacity, and font
 - Support for different layouts/game modes
 - Built-in Buttons plugin
 - Optional plugins that can be turned on or off
-- Plugin system for adding more features later
+- Flexible plugin system so users can create their own plugins and load them into the GobbieBars framework
 
 ## Plugins
 
@@ -45,9 +44,13 @@ GobbieBars includes the built-in Buttons plugin and several optional plugins tha
 
 ### Buttons
 
-The Buttons plugin is built into GobbieBars and provides the main action button system.
+The Buttons plugin is built into GobbieBars and lets you create fully configurable buttons for your UI.
 
-Buttons can be attached to GobbieBars screen bars or placed freely on the screen. You can create shortcuts for commands, macros, items, spells, weaponskills, job abilities, trusts, mounts, and other custom actions.
+Buttons can be attached to GobbieBars bars or placed freely on the screen. You can create buttons for commands, macros, items, spells, weaponskills, job abilities, trusts, mounts, and other custom actions.
+
+Buttons includes built-in support for CatseyeXI commands, inventory items, current-job spells, weapon-specific weaponskills, job abilities, available trusts, and available mounts. It can build selection lists from your current character data, so you do not need to manually type everything.
+
+You can also browse locally for your own button images with one click, then use those images as custom icons.
 
 Main options include custom icons, labels, tooltips, keybinds, multiline macros, job-specific visibility, text styling, colors, and drag-and-drop layout positioning.
 
@@ -55,17 +58,17 @@ Main options include custom icons, labels, tooltips, keybinds, multiline macros,
 
 ### Clock
 
-The Clock plugin displays Vana'diel time, real time, or both.
+The Clock plugin shows Vana'diel time, real time, or both in a configurable display.
 
-It supports seconds display, Vana'diel and real-time icons, font settings, alarm text, alarm mode, repeat timing, alarm sound testing, and an optional alarm overlay when the alarm fires.
+It includes customizable clock icons, font, font size, font color, and an alarm system with repeat timing, alarm sound settings, and an optional on-screen alarm overlay.
 
 ![Clock Plugin](docs/screenshots/clock.png)
 
 ### Codex
 
-The Codex plugin provides a lookup/tracking window for missing spells or other useful entries.
+The Codex plugin tracks missing spells for your current job and displays them in a clickable list.
 
-It includes refresh support, a missing count display, selectable wiki source, label display options, list display options, and separate font settings for the label and list.
+You can click any listed spell to open its wiki or Fandom page. It includes refresh support, missing spell count, selectable wiki source, display options, and configurable font settings.
 
 ![Codex Plugin](docs/screenshots/codex-settings.png)
 
@@ -79,9 +82,9 @@ It can show the current day, weakness element, weakness text, and a next-day too
 
 ### Emote
 
-The Emote plugin provides a configurable on-screen emote menu.
+The Emote plugin lets you create your own clickable emote list.
 
-It supports position and size settings, icon size, font size, bar text size, and individual emote options such as use, silent, and favorite.
+You can add any emote to the list and configure each selected emote individually, including whether it should be used silently or added to your favorites. The display also supports position, size, icon size, font size, and bar text size settings.
 
 ![Emote Plugin](docs/screenshots/emote-settings.png)
 
@@ -103,7 +106,7 @@ It can show job name, main/sub job levels, XP/LP, percentages, prestige options,
 
 ### Position
 
-The Position plugin displays player position coordinates.
+The Position plugin displays your current player position coordinates, which is especially useful for Chocobo digging.
 
 It supports configurable precision, font, font size, font color, and placement on the screen or a bar.
 
