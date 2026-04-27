@@ -10,6 +10,8 @@ GobbieBars gives you configurable screen bars for information plugins and layout
 
 The **Buttons** plugin is built into GobbieBars and provides the main action button system. Other plugins can be enabled or disabled depending on what you want to show.
 
+[Watch Demo Video](docs/videos/video.mp4)
+
 ## Main Features
 
 - Made specifically for CatseyeXI, with support for CW, ACE, and WEW game modes
