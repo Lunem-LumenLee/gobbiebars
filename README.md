@@ -67,7 +67,10 @@ Main options include custom icons, labels, tooltips, keybinds, multiline macros,
 
 ![Buttons Plugin](docs/screenshots/buttons-plugin.png)
 
-### Clock
+<h2>
+  <img src="docs/icons/clock.png" width="41" height="41" align="center" alt="Clock icon">
+  Clock
+</h2>
 
 The Clock plugin shows Vana'diel time, real time, or both in a configurable display.
 
@@ -75,7 +78,10 @@ It includes customizable clock icons, font, font size, font color, and an alarm 
 
 ![Clock Plugin](docs/screenshots/clock.png)
 
-### Codex
+<h2>
+  <img src="docs/icons/codex.png" width="41" height="41" align="center" alt="Codex icon">
+  Codex
+</h2>
 
 The Codex plugin tracks missing spells for your current job and displays them in a clickable list.
 
@@ -83,7 +89,10 @@ You can click any listed spell to open its wiki or Fandom page. It includes refr
 
 ![Codex Plugin](docs/screenshots/codex-settings.png)
 
-### Day
+<h2>
+  <img src="docs/icons/day.png" width="41" height="41" align="center" alt="Day icon">
+  Day
+</h2>
 
 The Day plugin displays Vana'diel day information.
 
@@ -91,7 +100,10 @@ It can show the current day, weakness element, weakness text, and a next-day too
 
 ![Day Plugin](docs/screenshots/day-settings.png)
 
-### Emote
+<h2>
+  <img src="docs/icons/emote.png" width="41" height="41" align="center" alt="Emote icon">
+  Emote
+</h2>
 
 The Emote plugin lets you create your own clickable emote list.
 
@@ -99,7 +111,10 @@ You can add any emote to the list and configure each selected emote individually
 
 ![Emote Plugin](docs/screenshots/emote-settings.png)
 
-### Moon
+<h2>
+  <img src="docs/icons/moon.png" width="41" height="41" align="center" alt="Moon icon">
+  Moon
+</h2>
 
 The Moon plugin displays moon phase information.
 
@@ -107,7 +122,10 @@ It can show the moon phase percentage and supports configurable font, font size,
 
 ![Moon Plugin](docs/screenshots/moon.gif)
 
-### Player Job
+<h2>
+  <img src="docs/icons/playerjob.png" width="41" height="41" align="center" alt="Player Job icon">
+  Player Job
+</h2>
 
 The Player Job plugin displays player job information.
 
@@ -115,7 +133,10 @@ It can show job name, main/sub job levels, XP/LP, percentages, prestige options,
 
 ![Player Job Plugin](docs/screenshots/playerjob.png)
 
-### Position
+<h2>
+  <img src="docs/icons/position.png" width="41" height="41" align="center" alt="Position icon">
+  Position
+</h2>
 
 The Position plugin displays your current player position coordinates, which is especially useful for Chocobo digging.
 
@@ -123,7 +144,10 @@ It supports configurable precision, font, font size, font color, and placement o
 
 ![Position Plugin](docs/screenshots/position.gif)
 
-### Weather
+<h2>
+  <img src="docs/icons/weather.png" width="41" height="41" align="center" alt="Weather icon">
+  Weather
+</h2>
 
 The Weather plugin displays weather information.
 
