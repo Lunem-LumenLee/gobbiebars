@@ -110,7 +110,7 @@ The Player Job plugin displays player job information.
 
 It can show job name, main/sub job levels, XP/LP, percentages, prestige options, job icons, icon themes, sorting, font settings, and layout size controls.
 
-![Player Job Plugin](docs/screenshots/playerjob-settings.png)
+![Player Job Plugin](docs/screenshots/playerjob.png)
 
 ### Position
 
@@ -118,7 +118,7 @@ The Position plugin displays your current player position coordinates, which is 
 
 It supports configurable precision, font, font size, font color, and placement on the screen or a bar.
 
-![Position Plugin](docs/screenshots/position-settings.png)
+![Position Plugin](docs/screenshots/position.gif)
 
 ### Weather
 
@@ -126,7 +126,7 @@ The Weather plugin displays weather information.
 
 It supports optional text display, configurable font, font size, font color, icon size, and placement on the screen or a bar.
 
-![Weather Plugin](docs/screenshots/weather-settings.png)
+![Weather Plugin](docs/screenshots/weather.png)
 
 ## Help
 
