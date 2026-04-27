@@ -44,15 +44,21 @@ GobbieBars includes the built-in Buttons plugin and several optional plugins tha
 
 ### Buttons
 
-The Buttons plugin is built into GobbieBars and lets you create fully configurable buttons for your UI.
+The Buttons plugin is built into GobbieBars and lets you create fully configurable action buttons for your UI.
 
-Buttons can be attached to GobbieBars bars or placed freely on the screen. You can create buttons for commands, macros, items, spells, weaponskills, job abilities, trusts, mounts, and other custom actions.
+Buttons can be attached to GobbieBars bars or placed freely on the screen. You can create shortcuts for commands, macros, items, spells, weaponskills, job abilities, trusts, mounts, and other custom actions.
 
 Buttons includes built-in support for CatseyeXI commands, inventory items, current-job spells, weapon-specific weaponskills, job abilities, available trusts, and available mounts. It can build selection lists from your current character data, so you do not need to manually type everything.
 
 You can also browse locally for your own button images with one click, then use those images as custom icons.
 
-Main options include custom icons, labels, tooltips, keybinds, multiline macros, job-specific visibility, text styling, colors, and drag-and-drop layout positioning.
+Button display can be customized globally or per button, including icon size, background color, border color, hover color, click color, label position, cooldown text position, counter position, and keybind text position.
+
+Text display can also be customized for labels, cooldowns, counters, keybinds, and tooltips, including font size, shadow size, text color, and shadow color.
+
+Weaponskill buttons can highlight available skillchain elements, with configurable element icons, highlight effect, and highlight color.
+
+Main options include custom icons, labels, tooltips, keybinds, multiline macros, job-specific visibility, text styling, colors, skillchain highlighting, and drag-and-drop layout positioning.
 
 ![Buttons Plugin](docs/screenshots/buttons-plugin.png)
 
