@@ -8,8 +8,6 @@ It was made specifically for **CatseyeXI**, but it is designed to work on other 
 
 GobbieBars gives you configurable screen bars for information plugins and layout areas, while the built-in **Buttons** plugin can create shortcuts either on bars or directly on the screen. Each bar can be configured individually, including size, color, opacity, texture, and whether it stays visible or only appears when you move the mouse over it.
 
-I wanted GobbieBars to be modular so I made seperate plugins which can be added under the file structure of this addon, but they should not be confused with typical "Plugins" such as Minimap or Deeps which are installed in the "Ashita\Plugins" folder.
-
 The **Buttons** plugin is built into GobbieBars and provides the main action button system. Other "gobbie" plugins can be enabled or disabled depending on what you want to show.
 
 ![Buttons Demo](docs/screenshots/video.gif)
@@ -17,20 +15,22 @@ The **Buttons** plugin is built into GobbieBars and provides the main action but
 ## Main Features
 
 - Made specifically for CatseyeXI, with support for CW, ACE, and WEW game modes
-- Designed to work on other Ashita v4 servers as well
+- Designed to work on other Ashita v4 clients as well
 - Configurable top, bottom, left, and right bars
 - Each bar can be adjusted separately
-- Each bar can be set individually to stay visible or appear only on mouseover
+- Settings to stay visible or appear only on mouseover
 - In-game settings window
-- Each bar can be customized individually, including texture, size, color, opacity, and font
+- Texture, size, color, opacity, and font settings
 - Support for different layouts/game modes
 - Built-in Buttons plugin
 - Optional plugins that can be turned on or off
 - Flexible plugin system so users can create their own plugins and load them into the GobbieBars framework
 
-## Plugins
+## Gobbie Plugins
 
 GobbieBars includes the built-in Buttons plugin and several optional plugins that can be enabled or disabled from the settings window.
+
+I wanted GobbieBars to be modular so I made seperate plugins which can be added under the file structure of this addon, but they should not be confused with typical "Plugins" such as Minimap or Deeps which are installed in the "Ashita\Plugins" folder.
 
 | Plugin | Short Description |
 |---|---|
