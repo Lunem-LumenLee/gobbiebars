@@ -168,6 +168,15 @@ Basic install:
 ```text
 /addon load gobbiebars
 
+## Project Status
+
+GobbieBars is a project I am actively building and improving.
+
+Everything included should be usable, but it is not finished yet. Some features may still need polish, and a few functions, icons, assets, or small details may still be missing while I continue working on it.
+
+I am sharing it because I think it is already useful, but please keep in mind that it is still growing and changing.
+
 ## License
 
 GobbieBars is released under the MIT License.
+
