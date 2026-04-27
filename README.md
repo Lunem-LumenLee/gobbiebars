@@ -44,7 +44,16 @@ GobbieBars includes the built-in Buttons plugin and several optional plugins tha
 
 ## Plugin Details
 
-### <img src="docs/icons/buttons.png" width="40"> Buttons
+<table>
+  <tr>
+    <td width="36">
+      <img src="docs/icons/buttons.png" width="28" alt="Buttons icon">
+    </td>
+    <td>
+      <h3>Buttons</h3>
+    </td>
+  </tr>
+</table>
 
 The Buttons plugin is built into GobbieBars and lets you create fully configurable action buttons for your UI.
 
