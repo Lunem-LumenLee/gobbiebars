@@ -102,7 +102,7 @@ The Moon plugin displays moon phase information.
 
 It can show the moon phase percentage and supports configurable font, font size, and icon size.
 
-![Moon Plugin](docs/screenshots/moon-settings.png)
+![Moon Plugin](docs/screenshots/moon.gif)
 
 ### Player Job
 
