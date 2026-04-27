@@ -31,14 +31,14 @@ GobbieBars includes the built-in Buttons plugin and several optional plugins tha
 | Plugin | Short Description |
 |---|---|
 | [Buttons](#buttons) | Create action buttons, macros, shortcuts, and custom commands. |
-| [Clock](#clock) | Show Vana'diel time, real time, alarms, and clock icons. |
-| [Codex](#codex) | Track missing spells or lookup entries with wiki support. |
-| [Day](#day) | Show Vana'diel day and elemental weakness information. |
-| [Emote](#emote) | Show a configurable emote menu. |
-| [Moon](#moon) | Show moon phase information. |
-| [Player Job](#player-job) | Show player jobs, levels, XP/LP, and job icons. |
-| [Position](#position) | Show player position coordinates. |
-| [Weather](#weather) | Show weather information with icon/text options. |
+| [Clock](#clock) | Display Vana'diel time, real time, alarms, and clock icons. |
+| [Codex](#codex) | Track missing spells for your current job with clickable wiki links. |
+| [Day](#day) | Display Vana'diel day and elemental weakness information. |
+| [Emote](#emote) | Build a clickable emote list with silent and favorite options. |
+| [Moon](#moon) | Display moon phase information. |
+| [Player Job](#player-job) | Track player jobs, levels, XP/LP, and job icons. |
+| [Position](#position) | Display player position coordinates, useful for Chocobo digging. |
+| [Weather](#weather) | Display weather information with icon and text options. |
 
 ## Plugin Details
 
