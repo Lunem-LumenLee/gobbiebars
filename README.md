@@ -10,7 +10,7 @@ GobbieBars gives you configurable screen bars for information plugins and layout
 
 The **Buttons** plugin is built into GobbieBars and provides the main action button system. Other plugins can be enabled or disabled depending on what you want to show.
 
-![Buttons Demo](docs/screenshots/buttons-demo.gif)
+![Buttons Demo](docs/screenshots/video.gif)
 
 ## Main Features
 
