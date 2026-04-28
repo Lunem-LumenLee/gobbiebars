@@ -30,7 +30,7 @@ The **Buttons** plugin is built into GobbieBars and provides the main action but
 
 GobbieBars includes the built-in Buttons plugin and several optional plugins that can be enabled or disabled from the settings window.
 
-I wanted GobbieBars to be modular so I made seperate plugins which can be added under the file structure of this addon, but they should not be confused with typical "Plugins" such as Minimap or Deeps which are installed in the "Ashita\Plugins" folder.
+I wanted GobbieBars to be modular so I made separate plugins which can be added under the file structure of this addon, but they should not be confused with typical "Plugins" such as Minimap or Deeps which are installed in the "Ashita\Plugins" folder.
 
 | Plugin | Short Description |
 |---|---|
