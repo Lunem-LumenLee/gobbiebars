@@ -65,7 +65,7 @@ Text display can also be customized for labels, cooldowns, counters, keybinds, a
 
 Weaponskill buttons can highlight available skillchain elements, with configurable element icons, highlight effect, and highlight color.
 
-Main options include custom icons, labels, tooltips, keybinds, multiline macros, job-specific visibility, text styling, colors, skillchain highlighting, and drag-and-drop Drag mode for button positioning.
+Main options include custom icons, labels, tooltips, keybinds, multiline macros, job-specific visibility, text styling, colors, skillchain highlighting, and Drag mode for button positioning.
 
 ![Buttons Plugin](docs/screenshots/buttons-plugin.png)
 
