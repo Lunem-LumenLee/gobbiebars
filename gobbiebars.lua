@@ -6,7 +6,7 @@
 addon = addon or {}
 addon.name    = 'gobbiebars'
 addon.author  = 'Lunem'
-addon.version = '0.1.7'
+addon.version = '0.1.8'
 addon.desc    = 'GobbieBars - layout-first bar host with internal plugins.'
 addon.link    = 'https://ashitaxi.com/'
 

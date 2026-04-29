@@ -2,7 +2,7 @@
 -- GobbieBars Plugin: Buttons
 -- File: Ashita/addons/gobbiebars/plugins/buttons/plugin.lua
 -- Author: Lunem
--- Version: 0.1.0
+-- Version: 0.1.8
 -------------------------------------------------------------------------------
 
 local function get_base_dir()
