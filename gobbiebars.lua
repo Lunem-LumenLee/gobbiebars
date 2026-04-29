@@ -1051,11 +1051,15 @@ local function gb_save_layout_for_job(job_id)
     local t = gb_settings.layouts[key].blocks
     for i = 1, #blocks do
         local blk = blocks[i]
-        t[blk.id] = t[blk.id] or {}
-        t[blk.id].bar = blk.bar
-        t[blk.id].x   = blk.x
-        t[blk.id].y   = blk.y
+
+        if blk.pid == 'buttons' then
+            t[blk.id] = t[blk.id] or {}
+            t[blk.id].bar = blk.bar
+            t[blk.id].x   = blk.x
+            t[blk.id].y   = blk.y
+        end
     end
+
     settings_mod.save()
 end
 
@@ -1069,6 +1073,11 @@ local function gb_set_layout_mode(on)
     gb_save_layout_for_job(gb_get_main_job_id())
     drag.active = false
     drag.id = nil
+end
+
+_G.gb_set_layout_mode = gb_set_layout_mode
+_G.gb_get_layout_mode = function()
+    return layout_mode == true
 end
 
 local function gb_toggle_enabled()
@@ -2204,7 +2213,7 @@ ashita.events.register('command', 'gb_command', function(e)
             return
         end
         if a2 == 'layout' then
-            gb_set_layout_mode(not layout_mode)
+            print('[GobbieBars] Drag mode is now available in Buttons settings.')
             e.blocked = true
             return
         end
@@ -2541,18 +2550,22 @@ local function gb_present_body()
     if layout_mode and (not drag.active) and gb_IsMouseClicked(0) then
         for i = #blocks, 1, -1 do
             local blk = blocks[i]
-            local br = gb_get_bar_rect(blk.bar, bars)
-            if br ~= nil then
-                local bx1 = br.x + blk.x
-                local by1 = br.y + blk.y
-                local bx2 = bx1 + blk.w
-                local by2 = by1 + blk.h
-                if gb_point_in_rect(mx, my, bx1, by1, bx2, by2) then
-                    drag.active = true
-                    drag.id = blk.id
-                    drag.offx = mx - bx1
-                    drag.offy = my - by1
-                    break
+
+            if blk.pid == 'buttons' then
+                local br = gb_get_bar_rect(blk.bar, bars)
+                if br ~= nil then
+                    local bx1 = br.x + blk.x
+                    local by1 = br.y + blk.y
+                    local bx2 = bx1 + blk.w
+                    local by2 = by1 + blk.h
+
+                    if gb_point_in_rect(mx, my, bx1, by1, bx2, by2) then
+                        drag.active = true
+                        drag.id = blk.id
+                        drag.offx = mx - bx1
+                        drag.offy = my - by1
+                        break
+                    end
                 end
             end
         end

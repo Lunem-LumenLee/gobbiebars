@@ -2128,13 +2128,6 @@ function M.draw_settings_ui(_wrapper_settings)
     end
     local st = load_state()
 
-    -- (description removed)
-
-
-
-
-
-
     ---------------------------------------------------------------------------
     -- Preview mode toggle (per plugin setting)
     ---------------------------------------------------------------------------
@@ -2148,6 +2141,27 @@ function M.draw_settings_ui(_wrapper_settings)
         if imgui.Checkbox('##gb_preview', v) then
             st.ui.preview_active = (v[1] == true)
             save_state()
+        end
+
+        imgui.SameLine()
+        imgui.Dummy({ 10, 1 })
+        imgui.SameLine()
+
+        local layout_v = false
+        if type(_G.gb_get_layout_mode) == 'function' then
+            layout_v = (_G.gb_get_layout_mode() == true)
+        end
+
+        local lv = { layout_v }
+
+        imgui.AlignTextToFramePadding()
+        imgui.Text('Drag mode:')
+        imgui.SameLine()
+
+        if imgui.Checkbox('##gb_buttons_layout_mode', lv) then
+            if type(_G.gb_set_layout_mode) == 'function' then
+                _G.gb_set_layout_mode(lv[1] == true)
+            end
         end
 
         imgui.SameLine()
@@ -2190,8 +2204,6 @@ function M.draw_settings_ui(_wrapper_settings)
             imgui.EndCombo()
         end
     end
-
-
 
     ---------------------------------------------------------------------------
     -- Label style (per-button)
@@ -2254,10 +2266,7 @@ function M.draw_settings_ui(_wrapper_settings)
         end
     end
 
-
-
     imgui.Separator()
-
 
     ---------------------------------------------------------------------------
     -- Global Button Defaults (collapsible)
@@ -2339,11 +2348,6 @@ function M.draw_settings_ui(_wrapper_settings)
 
         end
 
-
-
-
-
-
         -- Icon Size (respects Apply To)
         imgui.AlignTextToFramePadding()
         imgui.Text('Icon Size:')
@@ -2382,7 +2386,6 @@ function M.draw_settings_ui(_wrapper_settings)
 
             save_state()
         end
-
 
         -- Colors (compact row)
         st.ui.bg     = st.ui.bg     or { 20, 20, 20, 140 }
@@ -2653,7 +2656,6 @@ function M.draw_settings_ui(_wrapper_settings)
 
         if imgui.CollapsingHeader('Text settings', imgui.TreeNodeFlags_DefaultOpen) then
 
-
             -------------------------------------------------------------------
             -- Text settings (global defaults)
             -------------------------------------------------------------------
@@ -2846,14 +2848,11 @@ function M.draw_settings_ui(_wrapper_settings)
             imgui.Separator()
         end -- Text settings
 
-
-
         if imgui.CollapsingHeader('Weaponskill & Skillchain Settings', imgui.TreeNodeFlags_DefaultOpen) then
 
         -----------------------------------------------------------------------
         -- Skillchain Highlight / WS
         -----------------------------------------------------------------------
-
 
         do
             st.ui = st.ui or {}
@@ -2902,8 +2901,6 @@ do
         end
     end
 end
-
-
 
             -- Effect (with optional Border Color button on same row)
             local cur_mode = tostring(st.ui.sc_mode or 'off')
@@ -3694,8 +3691,6 @@ if imgui.BeginPopup('##gb_ja_picker') then
 
     imgui.EndPopup()
 end
-
-
 
     ---------------------------------------------------------------------------
     -- Position & Size
@@ -4885,9 +4880,6 @@ local sc_want_crawl  = (not layout_mode) and sc_highlight and (sc_mode == 'crawl
                     )
                 end
 
-
-
-
                 ----------------------------------------------------------------
                 -- Icon resolve
 				------------------------------------------------
@@ -5061,9 +5053,6 @@ local sc_want_crawl  = (not layout_mode) and sc_highlight and (sc_mode == 'crawl
                     sc_get_crawl_handle(tonumber(b.id or i) or i, false, sc_style)
                 end
 
-
-
-
                 ----------------------------------------------------------------
                 -- CD text (items)
                 ----------------------------------------------------------------
@@ -5185,7 +5174,6 @@ local sc_want_crawl  = (not layout_mode) and sc_highlight and (sc_mode == 'crawl
                     end
                 end
 
-
 ----------------------------------------------------------------
 -- Quantity overlay (items only) - uses item text settings
 ----------------------------------------------------------------
@@ -5222,8 +5210,6 @@ do
         end
     end
 end
-
-
                 ----------------------------------------------------------------
                 -- Keybind text (uses Text settings + Position)
                 ----------------------------------------------------------------
@@ -5253,7 +5239,6 @@ end
                         end
                     end
                 end
-
 
                 ----------------------------------------------------------------
                 -- Click handling (queue macro)
