@@ -2,7 +2,7 @@
 -- GobbieBars Plugin: Emote
 -- File: Ashita/addons/gobbiebars/plugins/emote/plugin.lua
 -- Author: Lunem
--- Version: 0.1.0
+-- Version: 0.1.1
 -------------------------------------------------------------------------------
 
 require('common')
@@ -658,6 +658,120 @@ local function get_avail_w()
     return tonumber(a) or 0
 end
 
+local function get_screen_size()
+    local sw = 1920
+    local sh = 1080
+
+    pcall(function()
+        if imgui ~= nil and type(imgui.GetIO) == 'function' then
+            local io = imgui.GetIO()
+            if io ~= nil then
+                local ds = io.DisplaySize or io.display_size
+                if type(ds) == 'table' then
+                    sw = tonumber(ds.x or ds[1] or sw) or sw
+                    sh = tonumber(ds.y or ds[2] or sh) or sh
+                elseif ds ~= nil then
+                    sw = tonumber(ds.x or sw) or sw
+                    sh = tonumber(ds.y or sh) or sh
+                end
+            end
+        end
+    end)
+
+    return sw, sh
+end
+
+local function clamp_dropdown_position(x, y, w, h)
+    local sw, sh = get_screen_size()
+
+    if x + w > sw then x = sw - w - 4 end
+    if y + h > sh then y = sh - h - 4 end
+    if x < 4 then x = 4 end
+    if y < 4 then y = 4 end
+
+    return x, y
+end
+
+local function resolve_font_family_size(family, px, fallback)
+    local fb = nil
+    if type(fallback) == 'userdata' or type(fallback) == 'cdata' then
+        fb = fallback
+    end
+
+    family = tostring(family or 'default')
+    if family == '' then family = 'default' end
+
+    px = tonumber(px or 14) or 14
+    if px < 8 then px = 8 end
+    if px > 64 then px = 64 end
+
+    if type(_G.FONT_FAMILIES) ~= 'table' then
+        return fb
+    end
+
+    local cache = _G.FONT_FAMILIES[family] or _G.FONT_FAMILIES.default
+    if type(cache) ~= 'table' then
+        return fb
+    end
+
+    local f = cache[px]
+    if type(f) == 'userdata' or type(f) == 'cdata' then
+        return f
+    end
+
+    local best = nil
+    local bestd = 999999
+
+    if type(_G.PLUGIN_FONT_SIZES) == 'table' then
+        for _, s in ipairs(_G.PLUGIN_FONT_SIZES) do
+            local ff = cache[s]
+            if type(ff) == 'userdata' or type(ff) == 'cdata' then
+                local d = math.abs((tonumber(s) or 0) - px)
+                if d < bestd then
+                    bestd = d
+                    best = ff
+                end
+            end
+        end
+        if best ~= nil then
+            return best
+        end
+    end
+
+    for k, ff in pairs(cache) do
+        if (type(ff) == 'userdata' or type(ff) == 'cdata') and type(k) == 'number' then
+            local d = math.abs(k - px)
+            if d < bestd then
+                bestd = d
+                best = ff
+            end
+        end
+    end
+
+    return best or fb
+end
+
+local function build_sorted_font_names()
+    local names = {}
+    local seen = {}
+
+    if type(_G.FONT_FAMILIES) == 'table' then
+        for name, _ in pairs(_G.FONT_FAMILIES) do
+            if type(name) == 'string' then
+                local trimmed = name:gsub('^%s+', ''):gsub('%s+$', '')
+                local key = trimmed:lower()
+                if trimmed ~= 'default' and not seen[key] then
+                    seen[key] = true
+                    names[#names + 1] = trimmed
+                end
+            end
+        end
+    end
+
+    table.sort(names, function(a, b) return a:lower() < b:lower() end)
+    return names
+end
+
 -------------------------------------------------------------------------------
 -- Plugin definition
 -------------------------------------------------------------------------------
@@ -684,7 +798,13 @@ local M = {
         x = 0,
         y = 0,
 
+        display_mode = 'text',
+        display_icon = 'amazed.png',
+        display_icon_size = 26,
+
         icon_size = 26,
+        font_name = 'default',
+        font_px = 14,
         font_scale = 1.0,
 
         bar_font_scale = 1.0,
@@ -744,6 +864,9 @@ local function gb_em_draw_dropdown(st)
     imgui.PushStyleColor(ImGuiCol_Header,        { 0.62, 0.44, 0.20, 1.00 })
     imgui.PushStyleColor(ImGuiCol_HeaderHovered, { 0.70, 0.50, 0.22, 1.00 })
     imgui.PushStyleColor(ImGuiCol_HeaderActive,  { 0.76, 0.55, 0.24, 1.00 })
+
+    local dd_font = resolve_font_family_size(st.font_name, st.font_px, nil)
+    if dd_font ~= nil then imgui.PushFont(dd_font) end
 
     if imgui.Begin('##gb_emote_dropdown', { true }, win_flags) then
 
@@ -825,10 +948,9 @@ local function gb_em_draw_dropdown(st)
     end
 
     imgui.End()
+    if dd_font ~= nil then imgui.PopFont() end
     imgui.PopStyleColor(3)
 end
-
-
 
 -------------------------------------------------------------------------------
 -- Present hook: keeps dropdown alive even when bar collapses
@@ -899,27 +1021,52 @@ function M.render(dl, rect, settings)
     local x = rect.content_x + 8 + ox
     local y = rect.content_y + 4 + oy
 
-    -- Header label (scaled)
-    local bar_scale = tonumber(st.bar_font_scale or 1.0) or 1.0
-    if bar_scale < 0.75 then bar_scale = 0.75 end
-    if bar_scale > 2.00 then bar_scale = 2.00 end
+    local display_mode = tostring(st.display_mode or 'text')
+    if display_mode ~= 'text' and display_mode ~= 'icon' then
+        display_mode = 'text'
+    end
 
-    if dl ~= nil then
-        if imgui.SetWindowFontScale ~= nil then
-            imgui.SetWindowFontScale(bar_scale)
+    local click_w = 90
+    local click_h = 22
+
+    if display_mode == 'icon' then
+        local icon_size = tonumber(st.display_icon_size or 26) or 26
+        if icon_size < 12 then icon_size = 12 end
+        if icon_size > 64 then icon_size = 64 end
+
+        click_w = icon_size
+        click_h = icon_size
+
+        if dl ~= nil then
+            local ih = load_texture_handle(emote_icon_path(st.display_icon or 'amazed.png'))
+            if ih ~= nil and dl.AddImage ~= nil then
+                dl:AddImage(ih, { x, y }, { x + icon_size, y + icon_size })
+            else
+                dl:AddText({ x, y }, col32(255, 255, 255, 255), 'Emote')
+            end
         end
-        dl:AddText({ x, y }, col32(255, 255, 255, 255), 'Emote')
-        if imgui.SetWindowFontScale ~= nil then
-            imgui.SetWindowFontScale(1.0)
+    else
+        -- Header label (scaled)
+        local bar_scale = tonumber(st.bar_font_scale or 1.0) or 1.0
+        if bar_scale < 0.75 then bar_scale = 0.75 end
+        if bar_scale > 2.00 then bar_scale = 2.00 end
+
+        if dl ~= nil then
+            if imgui.SetWindowFontScale ~= nil then
+                imgui.SetWindowFontScale(bar_scale)
+            end
+            dl:AddText({ x, y }, col32(255, 255, 255, 255), 'Emote')
+            if imgui.SetWindowFontScale ~= nil then
+                imgui.SetWindowFontScale(1.0)
+            end
         end
     end
 
-
-    -- Toggle dropdown by clicking header area
-    local cx1 = x
-    local cx2 = x + (rect.content_w or 0) - 16
+    -- Toggle dropdown by clicking display area
+    local cx1 = x - 2
+    local cx2 = x + click_w + 2
     local cy1 = y - 2
-    local cy2 = y + 16
+    local cy2 = y + click_h + 2
 
     if imgui.IsMouseClicked ~= nil and in_rect(mx, my, cx1, cy1, cx2, cy2) and imgui.IsMouseClicked(0) then
         st.dropdown_open = not (st.dropdown_open == true)
@@ -930,10 +1077,46 @@ function M.render(dl, rect, settings)
         return
     end
 
+    local area = 'top'
+    if type(settings) == 'table' and type(settings.bar) == 'string' then
+        area = settings.bar
+    end
+
+    if area ~= 'top' and area ~= 'bottom' and area ~= 'left' and area ~= 'right' and area ~= 'screen' then
+        area = 'top'
+    end
+
+    local dw = tonumber(st.dropdown_w or 240) or 240
+    local dh = tonumber(st.dropdown_h or 320) or 320
+
+    if dw < 160 then dw = 160 end
+    if dw > 520 then dw = 520 end
+    if dh < 120 then dh = 120 end
+    if dh > 700 then dh = 700 end
+
+    local px = x
+    local py = y + click_h + 4
+
+    if area == 'bottom' then
+        px = x
+        py = y - dh - 4
+    elseif area == 'left' then
+        px = x + click_w + 8
+        py = y
+    elseif area == 'right' then
+        px = x - dw - 8
+        py = y
+    elseif area == 'screen' then
+        px = x
+        py = y + click_h + 4
+    end
+
+    px, py = clamp_dropdown_position(px, py, dw, dh)
+
     -- Update anchor every frame while bar is visible.
     st._gb_em_rt = st._gb_em_rt or {}
-    st._gb_em_rt.px1 = rect.content_x + 6 + ox
-    st._gb_em_rt.py1 = rect.content_y + (rect.content_h or 0) - 8 + oy
+    st._gb_em_rt.px1 = px
+    st._gb_em_rt.py1 = py
 end
 
 -------------------------------------------------------------------------------
@@ -956,15 +1139,110 @@ function M.draw_settings_ui(settings)
 
     st.x = tonumber(st.x or 0) or 0
     st.y = tonumber(st.y or 0) or 0
+    st.font_name = tostring(st.font_name or 'default')
+    if st.font_name == '' then st.font_name = 'default' end
+    st.font_px = tonumber(st.font_px or 14) or 14
+    if st.font_px < 8 then st.font_px = 8 end
+    if st.font_px > 24 then st.font_px = 24 end
+
+    local function header_yellow(text)
+        imgui.PushStyleColor(ImGuiCol_Text, { 1.0, 0.90, 0.70, 1.0 })
+        if imgui.TextUnformatted then imgui.TextUnformatted(text) else imgui.Text(text) end
+        imgui.PopStyleColor(1)
+    end
 
     -- space between "Active" and first line
     imgui.Spacing()
     imgui.Spacing()
-	
+
+    local display_mode = tostring(st.display_mode or 'text')
+    if display_mode ~= 'text' and display_mode ~= 'icon' then
+        display_mode = 'text'
+    end
+
+    local display_label = 'Text'
+    if display_mode == 'icon' then display_label = 'Icon' end
+
+    header_yellow('General:')
+
+    local host_settings = settings
+    if type(host_settings) ~= 'table' then
+        host_settings = {}
+    end
+
+    local cur_area = tostring(host_settings.bar or M.default.bar or 'top')
+    if cur_area ~= 'top' and cur_area ~= 'bottom' and cur_area ~= 'left' and cur_area ~= 'right' and cur_area ~= 'screen' then
+        cur_area = 'top'
+    end
+
+    local area_label = cur_area
+    if cur_area == 'top' then area_label = 'Top' end
+    if cur_area == 'bottom' then area_label = 'Bottom' end
+    if cur_area == 'left' then area_label = 'Left' end
+    if cur_area == 'right' then area_label = 'Right' end
+    if cur_area == 'screen' then area_label = 'Screen' end
+
+    imgui.Text('Area')
+    imgui.SameLine()
+    imgui.SetNextItemWidth(160)
+
+    if imgui.BeginCombo('##gb_em_area', area_label, ImGuiComboFlags_None) then
+        if imgui.Selectable('Top', cur_area == 'top') then host_settings.bar = 'top' end
+        if imgui.Selectable('Bottom', cur_area == 'bottom') then host_settings.bar = 'bottom' end
+        if imgui.Selectable('Left', cur_area == 'left') then host_settings.bar = 'left' end
+        if imgui.Selectable('Right', cur_area == 'right') then host_settings.bar = 'right' end
+        if imgui.Selectable('Screen', cur_area == 'screen') then host_settings.bar = 'screen' end
+        imgui.EndCombo()
+    end
+
+    imgui.Text('Display')
+    imgui.SameLine()
+    imgui.SetNextItemWidth(160)
+
+    if imgui.BeginCombo('##gb_em_display_mode', display_label, ImGuiComboFlags_None) then
+        if imgui.Selectable('Text', display_mode == 'text') then
+            st.display_mode = 'text'
+            save_state()
+        end
+        if imgui.Selectable('Icon', display_mode == 'icon') then
+            st.display_mode = 'icon'
+            st.display_icon = 'amazed.png'
+            save_state()
+        end
+        imgui.EndCombo()
+    end
+
+    imgui.SameLine()
+    imgui.Text('Display Size')
+    imgui.SameLine()
+    imgui.SetNextItemWidth(140)
+
+    local display_size_mode = tostring(st.display_mode or 'text')
+    if display_size_mode ~= 'text' and display_size_mode ~= 'icon' then
+        display_size_mode = 'text'
+    end
+
+    if display_size_mode == 'icon' then
+        local disz = { tonumber(st.display_icon_size or 26) or 26 }
+        if disz[1] < 12 then disz[1] = 12 end
+        if disz[1] > 64 then disz[1] = 64 end
+
+        if imgui.SliderInt('##gb_em_display_icon_size', disz, 12, 64) then
+            st.display_icon_size = tonumber(disz[1] or 26) or 26
+            save_state()
+        end
+    else
+        local dfs = { tonumber(st.bar_font_scale or 1.0) or 1.0 }
+
+        if imgui.SliderFloat('##gb_em_display_text_size', dfs, 0.75, 2.00, '%.2f') then
+            st.bar_font_scale = tonumber(dfs[1] or 1.0) or 1.0
+            save_state()
+        end
+    end
+
     imgui.Text('Position')
     imgui.SameLine()
-
-    imgui.SetNextItemWidth(140)
+    imgui.SetNextItemWidth(110)
     local vx = { st.x }
     if imgui.InputInt('X##gb_em_x', vx) then
         st.x = tonumber(vx[1] or 0) or 0
@@ -972,8 +1250,7 @@ function M.draw_settings_ui(settings)
     end
 
     imgui.SameLine()
-
-    imgui.SetNextItemWidth(140)
+    imgui.SetNextItemWidth(110)
     local vy = { st.y }
     if imgui.InputInt('Y##gb_em_y', vy) then
         st.y = tonumber(vy[1] or 0) or 0
@@ -982,13 +1259,13 @@ function M.draw_settings_ui(settings)
 
     imgui.Separator()
 
-    -- Two-column alignment (fixed label and slider widths)
-    local col_label_w = 100
+    header_yellow('List:')
+
+    local col_label_w = 90
     local col_slider_w = 140
-    local col_gap = 18
+    local col_gap = 60
     local col2_x = col_label_w + col_slider_w + col_gap
 
-    -- Width + Height (same line)
     imgui.AlignTextToFramePadding()
     imgui.Text('Width')
     imgui.SameLine(col_label_w)
@@ -1010,7 +1287,6 @@ function M.draw_settings_ui(settings)
         save_state()
     end
 
-    -- Icon Size + Font Size (same line)
     imgui.AlignTextToFramePadding()
     imgui.Text('Icon Size')
     imgui.SameLine(col_label_w)
@@ -1023,32 +1299,47 @@ function M.draw_settings_ui(settings)
         save_state()
     end
 
+    imgui.Text('Font')
+    imgui.SameLine(col_label_w)
+    imgui.SetNextItemWidth(180)
+
+    local cur_font = tostring(st.font_name or 'default')
+    if cur_font == '' then cur_font = 'default' end
+
+    if imgui.BeginCombo('##gb_em_font_name', cur_font, ImGuiComboFlags_None) then
+        if imgui.Selectable('default', cur_font == 'default') then
+            st.font_name = 'default'
+            cur_font = 'default'
+            save_state()
+        end
+
+        local names = build_sorted_font_names()
+        for _, name in ipairs(names) do
+            if imgui.Selectable(name, cur_font == name) then
+                st.font_name = name
+                cur_font = name
+                save_state()
+            end
+        end
+
+        imgui.EndCombo()
+    end
+
     imgui.SameLine(col2_x)
     imgui.AlignTextToFramePadding()
     imgui.Text('Font Size')
     imgui.SameLine(col2_x + col_label_w)
     imgui.SetNextItemWidth(col_slider_w)
-    local fs = { tonumber(st.font_scale or 1.0) or 1.0 }
-    if imgui.SliderFloat('##gb_em_font_scale', fs, 0.75, 1.50, '%.2f') then
-        st.font_scale = tonumber(fs[1] or 1.0) or 1.0
-        save_state()
-    end
-
-
-
-    imgui.Separator()
-
-    imgui.Text('Bar Text Size')
-    imgui.SameLine()
-    imgui.SetNextItemWidth(140)
-    local bfs = { tonumber(st.bar_font_scale or 1.0) or 1.0 }
-    if imgui.SliderFloat('##gb_em_bar_font_scale', bfs, 0.75, 2.00, '%.2f') then
-        st.bar_font_scale = tonumber(bfs[1] or 1.0) or 1.0
+    local fpx = { tonumber(st.font_px or 14) or 14 }
+    if fpx[1] < 8 then fpx[1] = 8 end
+    if fpx[1] > 24 then fpx[1] = 24 end
+    if imgui.SliderInt('##gb_em_font_px', fpx, 8, 24) then
+        st.font_px = tonumber(fpx[1] or 14) or 14
         save_state()
     end
 
     imgui.Separator()
-    imgui.Text('Emotes')
+    header_yellow('Emotes:')
     imgui.Separator()
 
 
