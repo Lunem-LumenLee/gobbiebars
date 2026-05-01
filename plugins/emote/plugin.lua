@@ -1026,8 +1026,22 @@ function M.render(dl, rect, settings)
         display_mode = 'text'
     end
 
-    local click_w = 90
+    local click_w = 1
     local click_h = 22
+    local display_text = 'Emote'
+
+    local function gb_em_text_w(txt)
+        txt = tostring(txt or '')
+        if imgui.CalcTextSize ~= nil then
+            local a, b = imgui.CalcTextSize(txt)
+            if type(a) == 'number' then
+                return tonumber(a or 0) or 0
+            elseif type(a) == 'table' then
+                return tonumber(a.x or a[1] or 0) or 0
+            end
+        end
+        return #txt * 8
+    end
 
     if display_mode == 'icon' then
         local icon_size = tonumber(st.display_icon_size or 26) or 26
@@ -1042,7 +1056,7 @@ function M.render(dl, rect, settings)
             if ih ~= nil and dl.AddImage ~= nil then
                 dl:AddImage(ih, { x, y }, { x + icon_size, y + icon_size })
             else
-                dl:AddText({ x, y }, col32(255, 255, 255, 255), 'Emote')
+                dl:AddText({ x, y }, col32(255, 255, 255, 255), display_text)
             end
         end
     else
@@ -1051,11 +1065,17 @@ function M.render(dl, rect, settings)
         if bar_scale < 0.75 then bar_scale = 0.75 end
         if bar_scale > 2.00 then bar_scale = 2.00 end
 
+        click_w = math.floor((gb_em_text_w(display_text) * bar_scale) + 0.5)
+        if click_w < 1 then click_w = 1 end
+
+        click_h = math.floor((18 * bar_scale) + 0.5)
+        if click_h < 12 then click_h = 12 end
+
         if dl ~= nil then
             if imgui.SetWindowFontScale ~= nil then
                 imgui.SetWindowFontScale(bar_scale)
             end
-            dl:AddText({ x, y }, col32(255, 255, 255, 255), 'Emote')
+            dl:AddText({ x, y }, col32(255, 255, 255, 255), display_text)
             if imgui.SetWindowFontScale ~= nil then
                 imgui.SetWindowFontScale(1.0)
             end

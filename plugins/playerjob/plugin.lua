@@ -937,6 +937,44 @@ function M.render(dl, rect, settings)
         imgui.PopStyleColor(1)
     end
 
+    local click_left   = x
+    local click_top    = y
+    local click_right  = x
+    local click_bottom = y + bar_px
+
+    local function update_click_bounds()
+        if imgui.GetItemRectMin == nil or imgui.GetItemRectMax == nil then
+            return
+        end
+
+        local mn = imgui.GetItemRectMin()
+        local mxr = imgui.GetItemRectMax()
+
+        local mnx = x
+        local mny = y
+        local mxx = x
+        local mxy = y + bar_px
+
+        if type(mn) == 'table' then
+            mnx = tonumber(mn.x or mn[1] or x) or x
+            mny = tonumber(mn.y or mn[2] or y) or y
+        else
+            mnx = tonumber(mn or x) or x
+        end
+
+        if type(mxr) == 'table' then
+            mxx = tonumber(mxr.x or mxr[1] or x) or x
+            mxy = tonumber(mxr.y or mxr[2] or (y + bar_px)) or (y + bar_px)
+        else
+            mxx = tonumber(mxr or x) or x
+        end
+
+        if mnx < click_left then click_left = mnx end
+        if mny < click_top then click_top = mny end
+        if mxx > click_right then click_right = mxx end
+        if mxy > click_bottom then click_bottom = mxy end
+    end
+
     local bar_font = resolve_font_family_size(st.bar_font_name, 18, nil)
     if bar_font ~= nil then imgui.PushFont(bar_font) end
 
@@ -949,6 +987,7 @@ function M.render(dl, rect, settings)
 
     if left_text ~= '' then
         draw_shadowed(x, y, left_text)
+        update_click_bounds()
     end
 
     if right_text ~= '' then
@@ -1062,9 +1101,11 @@ function M.render(dl, rect, settings)
                     true
                 )
                 draw_shadowed(rx, y, rt)
+                update_click_bounds()
                 imgui.PopClipRect()
             else
                 draw_shadowed(rx, y, rt)
+                update_click_bounds()
             end
         end
     end
@@ -1079,10 +1120,11 @@ function M.render(dl, rect, settings)
     if bar_font ~= nil then imgui.PopFont() end
 
     local mx, my = imgui.GetMousePos()
-    local cx1 = rect.content_x + ox
-    local cx2 = rect.content_x + rect.content_w + ox
-    local cy1 = rect.content_y + oy
-    local cy2 = rect.content_y + rect.content_h + oy
+
+    local cx1 = click_left - 2
+    local cx2 = click_right + 2
+    local cy1 = click_top - 2
+    local cy2 = click_bottom + 2
 
     if in_rect(mx, my, cx1, cy1, cx2, cy2) and imgui.IsMouseClicked(0) then
         st.dropdown_open = not (st.dropdown_open == true)
